@@ -1,0 +1,109 @@
+{% extends 'main.html' %} {% block content %} {% load static %}
+<h1>&nbsp</h1>
+<h1>&nbsp</h1>
+{% if currentuser %}
+
+<h1>PROFILE PAGE</h1>
+<a href="profile-editing/">Редактирование</a>
+
+<h1>{{currentuser.name}}</h1>
+<h1>{{currentuser.surname}}</h1>
+<h1>{{currentuser.birthdate}}</h1>
+<h1>{{currentuser.sex}}</h1>
+<h1>{{currentuser.preferences}}</h1>
+<h1>{{currentuser.interests}}</h1>
+<h1>{{currentuser.sexualorientation}}</h1>
+
+<img
+  src="http://localhost:8000/media/{{currentuser.avatar}}"
+  alt="{{currentuser.avatar}}"
+  height="200px"
+/>
+
+{% else %}
+<h1>&nbsp</h1>
+<h1>PROFILE CREATION</h1>
+
+<div>
+  <form enctype="multipart/form-data" method="POST" action="">
+    {% csrf_token %}
+    <p>
+      <label for="id_name">Name:</label>
+      <input type="text" name="name" maxlength="20" required="" id="id_name" />
+    </p>
+
+    <p>
+      <label for="id_surname">Surname:</label>
+      <input
+        type="text"
+        name="surname"
+        maxlength="20"
+        required=""
+        id="id_surname"
+      />
+    </p>
+
+    <p>
+      <label for="id_birthdate">Birthdate:</label>
+      <input type="text" name="birthdate" required="" id="id_birthdate" />
+    </p>
+
+    <p>
+      <label for="id_sex">Sex:</label>
+      <select name="sex" required="" id="id_sex">
+        <option value="" selected="">---------</option>
+
+        <option value="m">Male</option>
+
+        <option value="f">Female</option>
+      </select>
+    </p>
+
+    <p>
+      <label for="id_preferences">Preferences:</label>
+      <select name="preferences" required="" id="id_preferences">
+        <option value="" selected="">---------</option>
+
+        <option value="m">Male</option>
+
+        <option value="f">Female</option>
+      </select>
+    </p>
+
+    <p>
+      <label for="id_interests">Interests:</label>
+      <textarea
+        name="interests"
+        cols="40"
+        rows="10"
+        maxlength="100"
+        required=""
+        id="id_interests"
+      ></textarea>
+    </p>
+    <p>
+      <label for="id_sexualorientation">Sexualorientation:</label>
+      <textarea
+        name="sexualorientation"
+        cols="40"
+        rows="10"
+        maxlength="100"
+        required=""
+        id="id_sexualorientation"
+      ></textarea>
+    </p>
+    <p>
+      <label for="id_avatar">Avatar:</label>
+      <input
+        type="file"
+        name="avatar"
+        accept="image/*"
+        required=""
+        id="id_avatar"
+      />
+    </p>
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+
+{% endif %} {% endblock content %}

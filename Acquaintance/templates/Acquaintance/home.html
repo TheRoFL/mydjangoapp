@@ -1,0 +1,42 @@
+{% extends 'main.html' %} {% block content %} {% load static %}
+<!DOCTYPE html>
+
+<h1>Acquaintances PAGE</h1>
+<h1>&nbsp</h1>
+
+{%if current_profileToBeLiked %}
+<h1>{{current_profileToBeLiked.name}}</h1>
+<h1>{{current_profileToBeLiked.surname}}</h1>
+<h1>{{current_profileToBeLiked.birthdate}}</h1>
+<h1>{{current_profileToBeLiked.sex}}</h1>
+<h1>{{current_profileToBeLiked.preferences}}</h1>
+<h1>{{current_profileToBeLiked.interests}}</h1>
+<h1>{{current_profileToBeLiked.sexualorientation}}</h1>
+
+<img
+  src="http://localhost:8000/media/{{current_profileToBeLiked.avatar}}"
+  alt="{{current_profileToBeLiked.avatar}}"
+  height="200px"
+/>
+
+<form style="display: inline-block" method="POST" action="">
+  {% csrf_token %}
+  <input name="like" id="like" type="submit" value="like" />
+</form>
+<form style="display: inline-block" method="POST" action="">
+  {% csrf_token %}
+  <input name="dislike" id="dislike" type="submit" value="dislike" />
+</form>
+<form style="display: inline-block" method="POST" action="">
+  {% csrf_token %}
+  <input name="message" id="message" type="text" />
+</form>
+<form style="display: inline-block" method="POST" action="">
+  {% csrf_token %}
+  <input name="sendmessage" type="submit" value="send" />
+</form>
+{%else%}
+
+<h1>На сегодня анкеты кончились</h1>
+
+{%endif%} {% endblock content %}
