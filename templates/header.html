@@ -84,10 +84,10 @@
       <nav style="display: inline-block">
         <ul>
           <li><a href="/">Главная страница</a></li>
-          <li><a href="/acquaintances">Знакомства</a></li>
           <li><a href="/profile">Профиль</a></li>
-          <li><a href="#">Ближайшие</a></li>
+          <li><a href="/acquaintances">Знакомства</a></li>
           <li><a href="/chat">Чаты</a></li>
+          <li><a href="#">Ближайшие</a></li>
           {%if request.user.is_authenticated %}
           <li><a href="/logout">Выйти</a></li>
           {% else %}
