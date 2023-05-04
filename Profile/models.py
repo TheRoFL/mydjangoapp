@@ -26,6 +26,9 @@ class ProfileData(models.Model):
   
     acquaintances_available = models.IntegerField(default=0, blank=True, null=True)
     current_acquaintance = models.IntegerField(default=0, blank=True, null=True)
+
+    couples_requests = models.IntegerField(default=0, blank=True, null=True)
+    current_сouple_request = models.IntegerField(default=0, blank=True, null=True)
     
     def __str__(self):
         return self.user.username
@@ -44,4 +47,4 @@ class ProfileLikes(models.Model):
     message = models.CharField(max_length=255, default="", blank=True, null=True)
 
     def __str__(self):
-        return ProfileData.objects.get(user_id=self.like).user.username
+        return ProfileData.objects.get(user_id=self.likerid).user.username

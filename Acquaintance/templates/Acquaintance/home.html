@@ -27,14 +27,29 @@
   {% csrf_token %}
   <input name="dislike" id="dislike" type="submit" value="dislike" />
 </form>
-<form style="display: inline-block" method="POST" action="">
+<form
+  style="display: inline-block"
+  method="POST"
+  action=""
+  onsubmit="return validateForm()"
+>
   {% csrf_token %}
+
   <input name="message" id="message" type="text" />
+  <input name="send" type="submit" value="send" />
 </form>
-<form style="display: inline-block" method="POST" action="">
-  {% csrf_token %}
-  <input name="sendmessage" type="submit" value="send" />
-</form>
+
+<script>
+  function validateForm() {
+    var messageInput = document.getElementById("message");
+    if (messageInput.value.trim() === "") {
+      alert("Пожалуйста, введите сообщение");
+      return false;
+    }
+    return true;
+  }
+</script>
+
 {%else%}
 
 <h1>На сегодня анкеты кончились</h1>

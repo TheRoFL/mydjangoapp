@@ -2,5 +2,57 @@
 <!DOCTYPE html>
 
 <h1>Chat PAGE</h1>
+<h1>&nbsp</h1>
+<h1>&nbsp</h1>
+
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+</style>
+
+<div class="grid-container">
+  <div>
+    <h1>Заявки в друзья</h1>
+
+    {% if couple_request %}
+    <h1>{{couple_request.name}}</h1>
+    <h1>{{couple_request.surname}}</h1>
+    <h1>{{couple_request.birthdate}}</h1>
+    <h1>{{couple_request.sex}}</h1>
+    <h1>{{couple_request.preferences}}</h1>
+    <h1>{{couple_request.interests}}</h1>
+    <h1>{{couple_request.sexualorientation}}</h1>
+
+    <img
+      src="http://localhost:8000/media/{{couple_request.avatar}}"
+      alt="{{couple_request.avatar}}"
+      height="200px"
+    />
+
+    <form style="display: inline-block" method="POST" action="">
+      {% csrf_token %}
+      <input name="like" id="like" type="submit" value="like" />
+    </form>
+    <form style="display: inline-block" method="POST" action="">
+      {% csrf_token %}
+      <input name="dislike" id="dislike" type="submit" value="dislike" />
+    </form>
+    {% else %}
+    <h2>У вас пока что нету заявок в друзья</h2>
+    {% endif %}
+  </div>
+
+  <div>
+    <h1>Текущие чаты</h1>
+    {%if all_chats %} {% for chat in all_chats %}
+    <h1>{{chat}}</h1>
+    {% endfor %} {%else%}
+    <h2>У вас пока что нету чатов</h2>
+    {%endif%}
+  </div>
+</div>
 
 {% endblock content %}

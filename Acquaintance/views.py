@@ -53,19 +53,18 @@ def home(request):
         #проверяем, что мы не лайкнем уже лайкнутую анкету
         already_liked = current_profileToBeLiked.profilelikes_set.filter(like_id=current_profileToBeLiked).filter(likerid=request.user.id)
 
-        print('already_liked = ', already_liked)
         if not already_liked:
-            print(request.POST)
             if request.POST.get('like') == 'like':
                 like1 = ProfileLikes.objects.create(like_id=current_profileToBeLiked.user_id, likerid=request.user.id)
             elif request.POST.get('dislike') == 'dislike':
                 like1 = None
+            elif request.POST.get('send') == 'send':
+                like1 = ProfileLikes.objects.create(like_id=current_profileToBeLiked.user_id, likerid=request.user.id,
+                message=request.POST.get('message'))
             else:
-                like1 = ProfileLikes.objects.create(like_id=current_profileToBeLiked.user_id, likerid=request.user.id, message=request.POST.get('message'))
-                print("current_profileToBeLiked:", current_profileToBeLiked.user_id)
-                print("current_userid:", current_userid)
+                pass
 
-        counter = counter + 1
+        counter += 1
         current_profile.current_acquaintance = counter
         current_profile.save()
 
@@ -77,5 +76,5 @@ def home(request):
 
 
 
-    contex = {'current_profileToBeLiked': current_profileToBeLiked}
+    contex = { 'current_profileToBeLiked': current_profileToBeLiked }
     return render(request, 'Acquaintance/home.html', contex)
