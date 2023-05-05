@@ -36,54 +36,54 @@ class Interests(models.Model):
 class PersonalData(models.Model):
 
     STAT_CHOICES =(
-                ('1', 'single'),
-                ('2', 'in-relations'),
-                ('3', 'complicated'),
+                ('Не в отношениях', 'Не в отношениях'),
+                ('В отношениях', 'В отношениях'),
+                ('Все сложно', 'Все сложно'),
         )
-    status = models.CharField(max_length=1, choices=STAT_CHOICES, blank=True, null=True)
+    status = models.CharField(max_length=100, choices=STAT_CHOICES, blank=True, null=True)
 
     PURP_CHOICES = (
-                ('1', 'serious'),
-                ('2', 'non-serious'),
-                ('3', 'just-for-fun'),
-                ('4', 'short-period'),
-                ('5', 'long-period'),
-                ('6', 'acquintances'),
+                ('Серьзные отношения', 'Серьзные отношения'),
+                ('Свободные отношения', 'Свободные отношения'),
+                ('Для развлечений', 'Для развлечений'),
+                ('Временные', 'Временные'),
+                ('Постоянные', 'Постоянные'),
+                ('Отношения', 'Отношения'),
             )
-    purpose = models.CharField(max_length=1, choices=PURP_CHOICES, blank=True, null=True)
+    purpose = models.CharField(max_length=100, choices=PURP_CHOICES, blank=True, null=True)
 
     height = models.IntegerField(blank=True, null=True)
     
     DRINK_CHOICES = (
-                ('1', 'sometimes'),
-                ('2', 'rarely'),
-                ('3', 'never'),
+                ('Иногда', 'Иногда'),
+                ('Редко', 'Редко'),
+                ('Никогда', 'Никогда'),
     )
-    drinking = models.CharField(max_length=1, choices=DRINK_CHOICES, blank=True, null=True)
+    drinking = models.CharField(max_length=100, choices=DRINK_CHOICES, blank=True, null=True)
 
     SMOKE_CHOICES = (
-                ('1', 'yes'),
-                ('2', 'sometimes'),
-                ('3', 'vape'),
-                ('4', 'no'),
+                ('Курю', 'Курю'),
+                ('Редко курю', 'Редко курю'),
+                ('Парю', 'Парю'),
+                ('Не курю и не парю', 'Не курю и не парю'),
     )
-    smoking = models.CharField(max_length=1, choices=SMOKE_CHOICES, blank=True, null=True)
+    smoking = models.CharField(max_length=100, choices=SMOKE_CHOICES, blank=True, null=True)
 
     SPORT_CHOICES = (
-                ('1', 'always'),
-                ('2', 'sometimes'),
-                ('3', 'rarely'),
-                ('4', 'never'),
+                ('Постоянно', 'Постоянно'),
+                ('Иногда', 'Иногда'),
+                ('Редко', 'Редко'),
+                ('Никогда', 'Никогда'),
     )
-    sport = models.CharField(max_length=1, choices=SPORT_CHOICES, blank=True, null=True)
+    sport = models.CharField(max_length=100, choices=SPORT_CHOICES, blank=True, null=True)
 
     CHILD_CHOICES = (
-                ('1', 'already-have'),
-                ('2', 'dont-have-but-want'),
-                ('3', 'dont-have'),
-                ('4', 'childfree'),
+                ('Уже есть', 'Уже есть'),
+                ('Нет, но хочу', 'Нет, но хочу'),
+                ('Нет', 'Нет'),
+                ('Чайлдфри', 'Чайлдфри'),
     )
-    children = models.CharField(max_length=1, choices=CHILD_CHOICES, blank=True, null=True)
+    children = models.CharField(max_length=100, choices=CHILD_CHOICES, blank=True, null=True)
 
 
 # Create your models here.

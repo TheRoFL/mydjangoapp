@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from Profile.models import ProfileData, ProfileLikes
@@ -9,7 +9,10 @@ from .models import Chat, Message
 def home(request):
 
     current_userid = request.user.id
-    current_profile = ProfileData.objects.get(user_id=current_userid)
+    try:
+        current_profile = ProfileData.objects.get(user_id=current_userid)
+    except ProfileData.DoesNotExist:
+        return redirect('/profile')
     #все запросы на добавление в друзья
     couple_requests = current_profile.profilelikes_set.filter(like_id=current_profile.user_id)
 

@@ -16,7 +16,10 @@ from Chat.models import Chat
 def home(request):
     #считываем текущую анкету
     current_userid = request.user.id
-    current_profile = ProfileData.objects.get(user_id=current_userid)
+    try:
+        current_profile = ProfileData.objects.get(user_id=current_userid)
+    except ProfileData.DoesNotExist:
+        return redirect('/profile')
 
     #определяем пол для поиска анкет
     if current_profile.preferences == 'm':

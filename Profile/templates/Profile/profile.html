@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% block content %} {% load static %}
 <h1>&nbsp</h1>
 <h1>&nbsp</h1>
-{% if currentuser %}
+{% if currentuser.interests %}
 
 <h1>PROFILE PAGE</h1>
 <a href="profile-editing/">Редактирование</a>
@@ -11,7 +11,41 @@
 <h1>{{currentuser.birthdate}}</h1>
 <h1>{{currentuser.sex}}</h1>
 <h1>{{currentuser.preferences}}</h1>
-<h1>{{currentuser.interests}}</h1>
+
+<h1>{{currentuser.personal_data.status}}</h1>
+<h1>{{currentuser.personal_data.purpose}}</h1>
+<h1>{{currentuser.personal_data.height}}</h1>
+<h1>{{currentuser.personal_data.drinking}}</h1>
+<h1>{{currentuser.personal_data.smoking}}</h1>
+<h1>{{currentuser.personal_data.sport}}</h1>
+<h1>{{currentuser.personal_data.children}}</h1>
+<!-- prettier-ignore -->
+<h1>
+  {% if currentuser.interests.music %} Музыка {% endif %}  
+  {% if currentuser.interests.travelling %}Путешествия{% endif %}
+  {% if currentuser.interests.fashion %}Мода{% endif %}
+  {% if currentuser.interests.hiking %}Походы{% endif %}
+  {% if currentuser.interests.photographing %}Фотография{% endif %}
+  {% if currentuser.interests.fishing_hunting %}Рыбалка{% endif %}
+  {% if currentuser.interests.parties_clubs %}Тусовки{% endif %}
+  {% if currentuser.interests.travelling %}Путешествия{% endif %}
+  {% if currentuser.interests.art %}Искусство{% endif %}
+  {% if currentuser.interests.meditation %}Медитация{% endif %}
+  {% if currentuser.interests.football %}Футбол{% endif %}
+  {% if currentuser.interests.fishing_hunting %}Рыбалка{% endif %}
+  {% if currentuser.interests.running %}Бег{% endif %}
+  {% if currentuser.interests.travelling %}Путешествия{% endif %}
+  {% if currentuser.interests.restaurants %}Рестораны{% endif %}
+  {% if currentuser.interests.cinema %}Кино{% endif %}
+  {% if currentuser.interests.board_games %}Настольные игры{% endif %}
+  {% if currentuser.interests.it %}ИТ-технологии{% endif %}
+  {% if currentuser.interests.dancing %}Танцы{% endif %}
+  {% if currentuser.interests.sport %}Спорт{% endif %}
+  {% if currentuser.interests.creativity %}Творчество{% endif %}
+  {% if currentuser.interests.books %}Книги{% endif %}
+
+</h1>
+
 <h1>{{currentuser.sexualorientation}}</h1>
 
 <img
@@ -24,6 +58,7 @@
 <h1>&nbsp</h1>
 <h1>PROFILE CREATION</h1>
 
+{% comment %}
 <div>
   <form enctype="multipart/form-data" method="POST" action="">
     {% csrf_token %}
@@ -105,5 +140,109 @@
     <input type="submit" value="Submit" />
   </form>
 </div>
+{% endcomment %}
 
-{% endif %} {% endblock content %}
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 30px;
+  }
+</style>
+
+{%if step == 0%}
+
+<div>
+  <form enctype="multipart/form-data" method="POST" action="">
+    {%csrf_token%}
+    <p>
+      <label for="id_name">Name:</label>
+      <input type="text" name="name" maxlength="20" required="" id="id_name" />
+    </p>
+
+    <p>
+      <label for="id_surname">Surname:</label>
+      <input
+        type="text"
+        name="surname"
+        maxlength="20"
+        required=""
+        id="id_surname"
+      />
+    </p>
+
+    <p>
+      <label for="id_birthdate">Birthdate:</label>
+      <input type="text" name="birthdate" required="" id="id_birthdate" />
+    </p>
+
+    <p>
+      <label for="id_sex">Sex:</label>
+      <select name="sex" required="" id="id_sex">
+        <option value="" selected="">---------</option>
+
+        <option value="m">Male</option>
+
+        <option value="f">Female</option>
+      </select>
+    </p>
+
+    <p>
+      <label for="id_preferences">Preferences:</label>
+      <select name="preferences" required="" id="id_preferences">
+        <option value="" selected="">---------</option>
+
+        <option value="m">Male</option>
+
+        <option value="f">Female</option>
+      </select>
+    </p>
+
+    <p>
+      <label for="id_about_you">About you:</label>
+      <input type="text" name="about_you" maxlength="255" id="id_about_you" />
+    </p>
+
+    <p>
+      <label for="id_sexualorientation">Sexualorientation:</label>
+      <textarea
+        name="sexualorientation"
+        cols="40"
+        rows="10"
+        maxlength="100"
+        required=""
+        id="id_sexualorientation"
+      ></textarea>
+    </p>
+
+    <p>
+      <label for="id_avatar">Avatar:</label>
+      <input
+        type="file"
+        name="avatar"
+        accept="image/*"
+        required=""
+        id="id_avatar"
+      />
+    </p>
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+
+{% elif step == 1%}
+<div>
+  <form method="POST" action="">
+    {% csrf_token %} {{PersonalData_form.as_p}}
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+
+{% elif step == 2%}
+<div>
+  <form method="POST" action="">
+    {% csrf_token %} {{Interests_form.as_p}}
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+
+{% endif %} {% endif %} {% endblock content %}
