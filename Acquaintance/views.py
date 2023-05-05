@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from Profile.models import ProfileData, ProfileLikes
+from Chat.models import Chat
 
 
 
@@ -52,8 +53,11 @@ def home(request):
         current_profileToBeLiked = profiles[counter]
         #проверяем, что мы не лайкнем уже лайкнутую анкету
         already_liked = current_profileToBeLiked.profilelikes_set.filter(like_id=current_profileToBeLiked).filter(likerid=request.user.id)
+        already_coupled = Chat.objects.filter(Q(member_one=current_profileToBeLiked.user.id, member_two=current_userid)
+                                             |Q(member_one=current_userid, member_two=current_profileToBeLiked.user.id))
 
-        if not already_liked:
+                                    
+        if not already_liked and not already_coupled:
             if request.POST.get('like') == 'like':
                 like1 = ProfileLikes.objects.create(like_id=current_profileToBeLiked.user_id, likerid=request.user.id)
             elif request.POST.get('dislike') == 'dislike':

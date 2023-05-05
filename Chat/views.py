@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 from Profile.models import ProfileData, ProfileLikes
 from .models import Chat, Message
 
@@ -13,6 +13,7 @@ def home(request):
     #все запросы на добавление в друзья
     couple_requests = current_profile.profilelikes_set.filter(like_id=current_profile.user_id)
 
+    #создаем список пар, для добавления в друзья
     couples = []
     for couple in couple_requests:
         temp = ProfileData.objects.get(user_id=couple.likerid)
@@ -40,7 +41,11 @@ def home(request):
         else:
             pass
 
-    all_chats =  Chat.objects.all()
+    #Выбираем только те чаты, в которых мы состоим 
+    all_chats =  Chat.objects.filter(Q(member_one=current_userid)
+                                    |Q(member_two=current_userid))
+
+    
     contex = {
         'couple_request':current_couple,
         'all_chats':all_chats

@@ -46,10 +46,15 @@
   </div>
 
   <div>
+    <!-- prettier-ignore -->
     <h1>Текущие чаты</h1>
     {%if all_chats %} {% for chat in all_chats %}
-    <h1>{{chat}}</h1>
-    {% endfor %} {%else%}
+    <h1></h1>
+    {% if chat.member_one.user == request.user %}
+    <h1>{{chat.member_two.name}} {{chat.member_two.surname}}</h1>
+    {%else%}
+    <h1>{{chat.member_one.name}} {{chat.member_one.surname}}</h1>
+    {%endif%} {% endfor %} {%else%}
     <h2>У вас пока что нету чатов</h2>
     {%endif%}
   </div>
