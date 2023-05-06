@@ -83,5 +83,5 @@ def home(request):
 
 
 
-    contex = { 'current_profileToBeLiked': current_profileToBeLiked }
+    contex = { 'currentuser': current_profileToBeLiked }
     return render(request, 'Acquaintance/home.html', contex)

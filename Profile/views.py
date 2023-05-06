@@ -12,6 +12,7 @@ from .forms import ProfileForm, InterestsForm, PersonalDataForm
 
 
 step = 0
+step_edit = 0
 @login_required(login_url='/login/')
 def profile(request):
     Profile_form = ProfileForm()
@@ -59,13 +60,13 @@ def profile(request):
                 interests.save()
                 profile.save()
 
-                step = step + 1
+                step = 0
+                return redirect('profile')
+               
 
             else: return HttpResponse("Форма не валидна3")
        
-       
         
-  
     context = {
         'currentuser': currentuser,
         'Profile_form': Profile_form,
@@ -78,21 +79,61 @@ def profile(request):
 
 
 def profile_editing(request):
-    MyProfileData = get_object_or_404(ProfileData, pk = request.user.id)
-    # MyInterests = get_object_or_404(Interests, pk = request.user.id)
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=MyProfileData)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
-            profile.save()
-            return redirect('/profile')
 
-        else: return HttpResponse("Форма не валидна")
-    else:
-         form = ProfileForm(instance=MyProfileData)
+    currentuserid = request.user.id
+    try:
+        currentuser = ProfileData.objects.get(user_id=currentuserid)
+    except ProfileData.DoesNotExist:
+        currentuser = None
+
+    MyProfileData = get_object_or_404(ProfileData, pk = request.user.id)
+    MyPersonalData = get_object_or_404(PersonalData, pk = currentuser.personal_data_id)
+    MyInterests = get_object_or_404(Interests, pk = currentuser.interests_id)
+
+    global step_edit
+
+    form = None
+
+    if request.method == 'POST':
+        if step_edit == 0:
+            form = ProfileForm(request.POST, request.FILES, instance=MyProfileData)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.save()
+
+                step_edit += 1
+            else: return HttpResponse("Форма не валидна 1")
+
+
+        elif step_edit == 1:
+            form = PersonalDataForm(request.POST, instance=MyPersonalData)
+            if form.is_valid():
+                presonal_data = form.save(commit=False)
+                presonal_data.save()
+                step_edit += 1
+            else: return HttpResponse("Форма не валидна 2")
+
+
+        elif step_edit == 2:
+            form = InterestsForm(request.POST, instance=MyInterests)
+            if form.is_valid():
+                interests = form.save(commit=False)
+                interests.save()
+                step_edit = 0
+                return redirect('/profile')
+            else: return HttpResponse("Форма не валидна 3")
+
+
+    if step_edit == 0:
+        form = ProfileForm(instance=MyProfileData)
+    elif step_edit == 1:
+        form = PersonalDataForm(instance=MyPersonalData)
+    elif step_edit == 2:
+        form = InterestsForm(instance=MyInterests)
+
 
     context = {
-        'form': form
+        'form': form,
+        'step_edit':step_edit
     }
     return render(request, 'Profile/profile-editing.html', context)
