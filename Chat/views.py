@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from Profile.models import ProfileData, ProfileLikes
@@ -49,9 +49,42 @@ def home(request):
                                     |Q(member_two=current_userid))
 
     
+    if current_couple:
+        current_message = ProfileLikes.objects.get(likerid=current_couple.user_id)
+    else: current_message = None
     contex = {
         'couple_request':current_couple,
-        'all_chats':all_chats
+        'all_chats':all_chats,
+        'message':current_message
     }
 
     return render(request, 'Chat/home.html', contex)
+
+
+def chat(request, pk):
+
+    current_userid = request.user.id
+    current_profile = ProfileData.objects.get(user_id=current_userid)
+
+    has_access = Chat.objects.filter(Q(member_one=current_userid)| Q(member_two=current_userid))
+    if has_access:
+        current_chat = Chat.objects.get(id=pk)
+    else: 
+        current_chat = None
+        return HttpResponse("Error 404")
+
+    all_messages = Message.objects.all()
+    if request.method == 'POST':
+        mes = request.POST.get('message')
+        message = Message.objects.create(chat=current_chat, message=mes)
+        message.author_id = current_userid
+        message.save()
+
+
+    contex = {
+        'pk': pk, 
+        'current_chat': current_chat,
+        'all_messages': all_messages,
+        'current_profile': current_profile
+    }
+    return render(request, 'Chat/chat.html', contex)

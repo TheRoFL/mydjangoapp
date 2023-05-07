@@ -29,12 +29,17 @@ def profile(request):
     if request.method == 'POST':
 
         if step == 0:
-            Profile_form = ProfileForm(request.POST, request.FILES)
-            if Profile_form.is_valid():
-                profile = Profile_form.save(commit=False)
-                profile.user = request.user
-                profile.save()
+            form = ProfileForm(request.POST, request.FILES)
 
+            if form.is_valid():
+                profile = form.save(commit=False)
+                day = request.POST.get('birthdateDay')
+                month = request.POST.get('birthdateMonth')
+                year = request.POST.get('birthdateYear')
+                profile.birthdate = f'{year}-{month}-{day}'
+                print('profile.birthdate =', profile.birthdate)
+                profile.user_id = currentuserid
+                profile.save()
                 step = step + 1
             else: return HttpResponse("Форма не валидна1")
 
@@ -97,8 +102,12 @@ def profile_editing(request):
     if request.method == 'POST':
         if step_edit == 0:
             form = ProfileForm(request.POST, request.FILES, instance=MyProfileData)
+
             if form.is_valid():
                 profile = form.save(commit=False)
+                day = request.POST.get('birthdateDay')
+                month = request.POST.get('birthdateMonth')
+                year = request.POST.get('birthdateYear')
                 profile.save()
 
                 step_edit += 1

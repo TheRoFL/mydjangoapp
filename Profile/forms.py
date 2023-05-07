@@ -7,7 +7,8 @@ class ProfileForm(ModelForm):
     class Meta:
         model = ProfileData
         fields = '__all__'
-        exclude = ['user', 'likes', 'acquaintances_available', 'current_acquaintance', 'couples_requests', 'interests', 'personal_data']
+        exclude = ['user', 'likes', 'acquaintances_available', 'current_acquaintance',
+                   'couples_requests', 'interests', 'personal_data', 'birthdate']
 
 class InterestsForm(ModelForm):
     class Meta:

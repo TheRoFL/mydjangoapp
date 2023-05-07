@@ -74,89 +74,7 @@
 <h1>&nbsp</h1>
 <h1>PROFILE CREATION</h1>
 
-{% comment %}
-<div>
-  <form enctype="multipart/form-data" method="POST" action="">
-    {% csrf_token %}
-    <p>
-      <label for="id_name">Name:</label>
-      <input type="text" name="name" maxlength="20" required="" id="id_name" />
-    </p>
-
-    <p>
-      <label for="id_surname">Surname:</label>
-      <input
-        type="text"
-        name="surname"
-        maxlength="20"
-        required=""
-        id="id_surname"
-      />
-    </p>
-
-    <p>
-      <label for="id_birthdate">Birthdate:</label>
-      <input type="text" name="birthdate" required="" id="id_birthdate" />
-    </p>
-
-    <p>
-      <label for="id_sex">Sex:</label>
-      <select name="sex" required="" id="id_sex">
-        <option value="" selected="">---------</option>
-
-        <option value="m">Male</option>
-
-        <option value="f">Female</option>
-      </select>
-    </p>
-
-    <p>
-      <label for="id_preferences">Preferences:</label>
-      <select name="preferences" required="" id="id_preferences">
-        <option value="" selected="">---------</option>
-
-        <option value="m">Male</option>
-
-        <option value="f">Female</option>
-      </select>
-    </p>
-
-    <p>
-      <label for="id_interests">Interests:</label>
-      <textarea
-        name="interests"
-        cols="40"
-        rows="10"
-        maxlength="100"
-        required=""
-        id="id_interests"
-      ></textarea>
-    </p>
-    <p>
-      <label for="id_sexualorientation">Sexualorientation:</label>
-      <textarea
-        name="sexualorientation"
-        cols="40"
-        rows="10"
-        maxlength="100"
-        required=""
-        id="id_sexualorientation"
-      ></textarea>
-    </p>
-    <p>
-      <label for="id_avatar">Avatar:</label>
-      <input
-        type="file"
-        name="avatar"
-        accept="image/*"
-        required=""
-        id="id_avatar"
-      />
-    </p>
-    <input type="submit" value="Submit" />
-  </form>
-</div>
-{% endcomment %} {%if step == 0%}
+{%if step == 0%}
 
 <div>
   <form enctype="multipart/form-data" method="POST" action="">
@@ -178,10 +96,65 @@
     </p>
 
     <p>
-      <label for="id_birthdate">Birthdate:</label>
-      <input type="text" name="birthdate" required="" id="id_birthdate" />
+      <label for="id_birthdate" style="display: block">Birthdate:</label>
+      <label for="id_birthdate">Day:</label>
+      <input type="text" name="birthdateDay" required="" id="id_birthdateDay" />
+      <label for="id_birthdate">Month:</label>
+      <input
+        type="text"
+        name="birthdateMonth"
+        required=""
+        id="id_birthdateMonth"
+      />
+      <label for="id_birthdate">Year:</label>
+      <input
+        type="text"
+        name="birthdateYear"
+        required=""
+        id="id_birthdateYear"
+      />
     </p>
 
+    <script>
+      const form = document.querySelector("form");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const dayInput = document.querySelector('input[name="birthdateDay"]');
+        const monthInput = document.querySelector(
+          'input[name="birthdateMonth"]'
+        );
+        const yearInput = document.querySelector('input[name="birthdateYear"]');
+
+        const day = parseInt(dayInput.value);
+        const month = parseInt(monthInput.value);
+        const year = parseInt(yearInput.value);
+
+        if (isNaN(day) || isNaN(month) || isNaN(year)) {
+          alert("Please enter valid numbers for day, month, and year.");
+          return;
+        }
+
+        if (year < 1920 || year > 2006) {
+          alert("Please enter a year greater than or equal to 1920.");
+          return;
+        }
+
+        if (day < 1 || day > 31) {
+          alert("Please enter a valid day between 1 and 31.");
+          return;
+        }
+
+        if (month < 1 || month > 12) {
+          alert("Please enter a valid month between 1 and 12.");
+          return;
+        }
+
+        // Если данные проходят проверку, отправляем форму на сервер
+        this.submit();
+      });
+    </script>
     <p>
       <label for="id_sex">Sex:</label>
       <select name="sex" required="" id="id_sex">
@@ -207,18 +180,6 @@
     <p>
       <label for="id_about_you">About you:</label>
       <input type="text" name="about_you" maxlength="255" id="id_about_you" />
-    </p>
-
-    <p>
-      <label for="id_sexualorientation">Sexualorientation:</label>
-      <textarea
-        name="sexualorientation"
-        cols="40"
-        rows="10"
-        maxlength="100"
-        required=""
-        id="id_sexualorientation"
-      ></textarea>
     </p>
 
     <p>

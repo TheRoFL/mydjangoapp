@@ -7,7 +7,7 @@
 <style>
   .grid {
     display: grid;
-    grid-template-columns: 1fr 3fr 2fr;
+    grid-template-columns: 1fr 1fr 2fr;
     margin-top: 10px;
   }
 </style>
@@ -29,8 +29,8 @@
       src="http://localhost:8000/media/{{currentuser.avatar}}"
       alt="{{currentuser.avatar}}"
       height="450px"
+      style="display: block; margin-bottom: 10px"
     />
-    <h1>&nbsp</h1>
     <form style="display: inline-block" method="POST" action="">
       {% csrf_token %}
       <input name="like" id="like" type="submit" value="like" />

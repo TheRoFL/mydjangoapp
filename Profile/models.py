@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.db.utils import IntegrityError
-from django.core.validators import int_list_validator
+
 
 
 
@@ -91,7 +91,7 @@ class ProfileData(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=20,blank=False, null=False)
     surname = models.CharField(max_length=20, blank=False, null=False)
-    birthdate = models.DateField(blank=False, null=False)
+    birthdate = models.DateField(blank=True, null=True)
 
     SEX_CHOICES = (
             ('m', 'Male'),
@@ -101,7 +101,6 @@ class ProfileData(models.Model):
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=False, null=False)
     preferences = models.CharField(max_length=1, choices=SEX_CHOICES, blank=False, null=False)
     about_you = models.CharField(max_length=255, blank=True, null=True)
-    sexualorientation = models.TextField(validators=[int_list_validator], max_length=100)
 
   
     personal_data = models.OneToOneField(PersonalData, on_delete=models.CASCADE, blank=True, null=True)
@@ -118,12 +117,6 @@ class ProfileData(models.Model):
     def __str__(self):
         return self.user.username
 
-    def save(self, *args, **kwargs):
-        try:
-            super(ProfileData, self).save(*args, **kwargs)
-        except IntegrityError:
-            raise ValueError('Такой email уже занят. Пожалуйста, введите другой email.')
-
 
 class ProfileLikes(models.Model):
     like = models.ForeignKey(ProfileData, on_delete = models.CASCADE, blank=True, null=True)
@@ -133,4 +126,3 @@ class ProfileLikes(models.Model):
     def __str__(self):
         return ProfileData.objects.get(user_id=self.likerid).user.username
 
-    

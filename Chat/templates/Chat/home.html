@@ -21,10 +21,48 @@
     <h1>{{couple_request.name}}</h1>
     <h1>{{couple_request.surname}}</h1>
     <h1>{{couple_request.birthdate}}</h1>
-    <h1>{{couple_request.sex}}</h1>
-    <h1>{{couple_request.preferences}}</h1>
-    <h1>{{couple_request.interests}}</h1>
-    <h1>{{couple_request.sexualorientation}}</h1>
+    <h1>{% if currentuser.sex == 'm' %} Мужик {%else%} Баба {%endif%}</h1>
+    <h1>
+      {% if currentuser.preferences == 'f' %} Ищет бабу {%else%} Ищет мужика
+      {%endif%}
+    </h1>
+    <h1>Положение: {{couple_request.personal_data.status}}</h1>
+    <h1>Цель знакомства: {{couple_request.personal_data.purpose}}</h1>
+    <h1>Рост: {{couple_request.personal_data.height}}см</h1>
+    <h1>Отношение к алкоголю: {{couple_request.personal_data.drinking}}</h1>
+    <h1>Отношение к курению: {{couple_request.personal_data.smoking}}</h1>
+    <h1>Отношение к спорту: {{couple_request.personal_data.sport}}</h1>
+    <h1>Отношение к детям: {{couple_request.personal_data.children}}</h1>
+    <!-- prettier-ignore -->
+    <h1>
+    Интересы: 
+    {% if couple_request.interests.music %} Музыка {% endif %}  
+    {% if couple_request.interests.travelling %}Путешествия{% endif %}
+    {% if couple_request.interests.fashion %}Мода{% endif %}
+    {% if couple_request.interests.hiking %}Походы{% endif %}
+    {% if couple_request.interests.photographing %}Фотография{% endif %}
+    {% if couple_request.interests.fishing_hunting %}Рыбалка{% endif %}
+    {% if couple_request.interests.parties_clubs %}Тусовки{% endif %}
+    {% if couple_request.interests.travelling %}Путешествия{% endif %}
+    {% if couple_request.interests.art %}Искусство{% endif %}
+    {% if couple_request.interests.meditation %}Медитация{% endif %}
+    {% if couple_request.interests.football %}Футбол{% endif %}
+    {% if couple_request.interests.fishing_hunting %}Рыбалка{% endif %}
+    {% if couple_request.interests.running %}Бег{% endif %}
+    {% if couple_request.interests.travelling %}Путешествия{% endif %}
+    {% if couple_request.interests.restaurants %}Рестораны{% endif %}
+    {% if couple_request.interests.cinema %}Кино{% endif %}
+    {% if couple_request.interests.board_games %}Настольные игры{% endif %}
+    {% if couple_request.interests.it %}ИТ-технологии{% endif %}
+    {% if couple_request.interests.dancing %}Танцы{% endif %}
+    {% if couple_request.interests.sport %}Спорт{% endif %}
+    {% if couple_request.interests.creativity %}Творчество{% endif %}
+    {% if couple_request.interests.books %}Книги{% endif %}
+
+    {% if message.message %}
+    <h1>{{couple_request.name}} отправил тебе сообщение: {{message.message}}</h1>
+    {%endif%}
+  </h1>
 
     <img
       src="http://localhost:8000/media/{{couple_request.avatar}}"
@@ -51,9 +89,17 @@
     {%if all_chats %} {% for chat in all_chats %}
     <h1></h1>
     {% if chat.member_one.user == request.user %}
-    <h1>{{chat.member_two.name}} {{chat.member_two.surname}}</h1>
+    <h1>
+      <a href="chats/{{chat.id}}">
+        {{chat.member_two.name}} {{chat.member_two.surname}}</a
+      >
+    </h1>
     {%else%}
-    <h1>{{chat.member_one.name}} {{chat.member_one.surname}}</h1>
+    <h1>
+      <a href="chats/{{chat.id}}">
+        {{chat.member_one.name}} {{chat.member_one.surname}}</a
+      >
+    </h1>
     {%endif%} {% endfor %} {%else%}
     <h2>У вас пока что нету чатов</h2>
     {%endif%}
