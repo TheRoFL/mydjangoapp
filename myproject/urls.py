@@ -10,6 +10,7 @@ urlpatterns = [
     path('profile/', include('Profile.urls')),
     path('acquaintances/', include('Acquaintance.urls')),
     path('chat/', include('Chat.urls')),
+    path('map/', include('Map.urls'))
 ]
 
 

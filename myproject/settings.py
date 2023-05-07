@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Profile.apps.ProfileConfig',
     'Acquaintance.apps.AcquaintanceConfig',
     'Chat.apps.ChatConfig',
+    'Map.apps.MapConfig',
 
 ]
 
