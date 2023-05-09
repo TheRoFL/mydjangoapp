@@ -6,10 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from datetime import date
 
 from .models import ProfileData, Interests, PersonalData
 from .forms import ProfileForm, InterestsForm, PersonalDataForm
-
+from Acquaintance.models import Filter
 
 step = 0
 step_edit = 0
@@ -19,6 +20,7 @@ def profile(request):
     Interests_form = InterestsForm()
     PersonalData_form = PersonalDataForm()
     currentuserid = request.user.id
+    
     try:
         currentuser = ProfileData.objects.get(user_id=currentuserid)
     except ProfileData.DoesNotExist:
@@ -30,7 +32,7 @@ def profile(request):
 
         if step == 0:
             form = ProfileForm(request.POST, request.FILES)
-
+          
             if form.is_valid():
                 profile = form.save(commit=False)
                 day = request.POST.get('birthdateDay')
@@ -64,20 +66,33 @@ def profile(request):
                 profile.interests = interests
                 interests.save()
                 profile.save()
-
+                filters = Filter(profile_data_id=profile.user_id)
+                filters.save()
                 step = 0
                 return redirect('profile')
                
 
             else: return HttpResponse("Форма не валидна3")
        
-        
+    if currentuser:    
+        birth = str(currentuser.birthdate)
+        year, month, day = map(int, birth.split('-'))
+        birthdate = date(year, month, day)
+        today = date.today()
+        age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+    else:
+        birth = None
+        year, month, day = None, None, None
+        birthdate = None
+        today = None
+        age = None
     context = {
         'currentuser': currentuser,
         'Profile_form': Profile_form,
         'Interests_form': Interests_form,
         'PersonalData_form':PersonalData_form,
         'step':step,
+        'age':age
     }
     
     return render(request, 'Profile/profile.html', context)
@@ -109,7 +124,6 @@ def profile_editing(request):
                 month = request.POST.get('birthdateMonth')
                 year = request.POST.get('birthdateYear')
                 profile.save()
-
                 step_edit += 1
             else: return HttpResponse("Форма не валидна 1")
 

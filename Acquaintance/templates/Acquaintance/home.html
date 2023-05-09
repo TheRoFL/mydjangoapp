@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% block content %} {% load static %}
 <!DOCTYPE html>
 
-<h1>ACQUAINTANCE PAGE</h1>
+<h1>ACQUAINTANCE PAGE <a href="filter/">filters</a></h1>
 <h1>&nbsp</h1>
 <h1>&nbsp</h1>
 <style>
@@ -17,7 +17,7 @@
   <div>
     <h1>{{currentuser.name}}</h1>
     <h1>{{currentuser.surname}}</h1>
-    <h1>{{currentuser.birthdate}}</h1>
+    <h1>{{age}} лет</h1>
     <h1>{% if currentuser.sex == 'm' %} Мужик {%else%} Баба {%endif%}</h1>
     <h1>
       {% if currentuser.preferences == 'f' %} Ищет бабу {%else%} Ищет мужика

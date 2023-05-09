@@ -66,14 +66,14 @@ def chat(request, pk):
     current_userid = request.user.id
     current_profile = ProfileData.objects.get(user_id=current_userid)
 
-    has_access = Chat.objects.filter(Q(member_one=current_userid)| Q(member_two=current_userid))
+    has_access = Chat.objects.filter(Q(member_one=current_userid) | Q(member_two=current_userid))
     if has_access:
         current_chat = Chat.objects.get(id=pk)
     else: 
         current_chat = None
         return HttpResponse("Error 404")
 
-    all_messages = Message.objects.all()
+    all_messages = Message.objects.filter(chat_id=current_chat)
     if request.method == 'POST':
         mes = request.POST.get('message')
         message = Message.objects.create(chat=current_chat, message=mes)

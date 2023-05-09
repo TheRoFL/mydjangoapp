@@ -1,0 +1,167 @@
+{% extends 'main.html' %} {% block content %} {% load static %}
+<!DOCTYPE html>
+<head>
+  <title>Моя форма</title>
+  <style>
+    form input[type="submit"] {
+      background-color: orange;
+      color: black;
+      border-radius: 20px;
+      width: 150px;
+      height: 40px;
+      border: none;
+      font-size: 24px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    form input[type="text"] {
+      width: 50px;
+      font-size: 24px;
+      color: black;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    form input[type="submit"]:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+
+<h1>FILTER PAGE</h1>
+<h1>&nbsp</h1>
+
+<h1>Мои фильры</h1>
+
+{%if filter%}
+<h1>
+  <form method="POST">
+    {% csrf_token %} Рост от
+    <input
+      type="text"
+      name="height_limit_lower"
+      maxlength="3"
+      id="height_limit_lower"
+      value="{{filter.height_limit_lower}}"
+      pattern="^\d+$"
+      required
+    />
+    до
+    <input
+      type="text"
+      name="height_limit_upper"
+      maxlength="3"
+      id="height_limit_upper"
+      value="{{filter.height_limit_upper}}"
+      pattern="^\d+$"
+      required
+    />
+    <br />
+    Возраст от
+    <input
+      type="text"
+      name="age_limit_lower"
+      maxlength="2"
+      id="age_limit_lower"
+      value="{{filter.age_limit_lower}}"
+      pattern="^\d+$"
+      required
+    />
+    до
+    <input
+      type="text"
+      name="age_limit_upper"
+      maxlength="2"
+      id="age_limit_upper"
+      value="{{filter.age_limit_upper}}"
+      pattern="^\d+$"
+      required
+    />
+    <br />
+    <input type="submit" value="Сохранить" />
+  </form>
+  <script>
+    const form = document.querySelector("form");
+    const heightLower = form.querySelector("#height_limit_lower");
+    const heightUpper = form.querySelector("#height_limit_upper");
+    const ageLower = form.querySelector("#age_limit_lower");
+    const ageUpper = form.querySelector("#age_limit_upper");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const heightLowerValue = parseInt(heightLower.value);
+      const heightUpperValue = parseInt(heightUpper.value);
+      const ageLowerValue = parseInt(ageLower.value);
+      const ageUpperValue = parseInt(ageUpper.value);
+
+      if (
+        !heightLowerValue ||
+        !heightUpperValue ||
+        !ageLowerValue ||
+        !ageUpperValue
+      ) {
+        alert("Пожалуйста, заполните все поля");
+        return;
+      }
+
+      if (
+        heightLowerValue < 140 ||
+        heightLowerValue > 220 ||
+        heightUpperValue < 140 ||
+        heightUpperValue > 220
+      ) {
+        alert("Пожалуйста, введите рост от 140 до 200 см");
+        return;
+      }
+
+      if (
+        ageLowerValue < 18 ||
+        ageLowerValue > 100 ||
+        ageUpperValue < 18 ||
+        ageUpperValue > 100
+      ) {
+        alert("Пожалуйста, введите возраст от 18 до 100 лет");
+        return;
+      }
+
+      if (heightLowerValue > heightUpperValue) {
+        alert(
+          "Пожалуйста, введите корректные значения для минимального и максимального роста"
+        );
+        return;
+      }
+
+      if (ageLowerValue > ageUpperValue) {
+        alert(
+          "Пожалуйста, введите корректные значения для минимального и максимального возраста"
+        );
+        return;
+      }
+
+      form.submit();
+    });
+  </script>
+  {%else%}
+  <h1>-</h1>
+  {%endif%}
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Double Range Slider</title>
+    <!--Google Fonts-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <!--Stylesheet-->
+
+    <link rel="stylesheet" href="{% static 'css/style.css'%}" />
+  </head>
+  <body>
+    <!--Script-->
+
+    <script src="{% static 'js/script.js'%}"></script>
+  </body>
+
+  {% endblock content %}
+</h1>

@@ -10,7 +10,9 @@
 
 {% if all_messages %} {% for mes in all_messages %}
 <h3>
-  {{mes.author.name}} {{mes.author.surname}}: {{mes}} - {{mes.sent_time.time}}
+  {% if mes.author_id == request.user.id %} Вы: {{mes}} - {{mes.sent_time.time}}
+  {% else %} {{mes.author.name}} {{mes.author.surname}}: {{mes}} -
+  {{mes.sent_time.time}} {% endif %}
 </h3>
 {% endfor %} {%endif%}
 
