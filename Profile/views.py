@@ -97,9 +97,7 @@ def profile(request):
     
     return render(request, 'Profile/profile.html', context)
 
-
 def profile_editing(request):
-
     currentuserid = request.user.id
     try:
         currentuser = ProfileData.objects.get(user_id=currentuserid)
@@ -160,3 +158,22 @@ def profile_editing(request):
         'step_edit':step_edit
     }
     return render(request, 'Profile/profile-editing.html', context)
+
+def profileReview(request, Login):
+    try:
+        try:
+            currentuser = User.objects.get(username=Login)
+            currentuserid= currentuser.id
+        except User.DoesNotExist:
+            currentuser = None  
+            currentuserid = None
+        currentprofile = ProfileData.objects.get(user_id=currentuserid)
+    except ProfileData.DoesNotExist:
+        currentprofile = None
+
+
+    context = {
+            'currentuser': currentprofile,
+        }
+    
+    return render(request, 'Profile/current_profile.html', context)

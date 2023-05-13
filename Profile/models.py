@@ -106,7 +106,7 @@ class ProfileData(models.Model):
     personal_data = models.OneToOneField(PersonalData, on_delete=models.CASCADE, blank=True, null=True)
     interests = models.OneToOneField(Interests, on_delete=models.CASCADE, blank=True, null=True)
 
-    avatar = models.ImageField(upload_to='avatars')
+    avatar = models.ImageField(upload_to='avatars/%Y/%m/%d/')
   
     acquaintances_available = models.IntegerField(default=0, blank=True, null=True)
     current_acquaintance = models.IntegerField(default=0, blank=True, null=True)

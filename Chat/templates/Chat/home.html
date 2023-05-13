@@ -93,12 +93,31 @@
       <a href="chats/{{chat.id}}">
         {{chat.member_two.name}} {{chat.member_two.surname}}</a
       >
+
+      <div>
+        <a href="/profile/{{chat.member_two}}">
+          <img
+            src="http://localhost:8000/media/{{chat.member_two.avatar}}"
+            alt="{{chat.member_two.avatar}}"
+            height="150px"
+          />
+        </a>
+      </div>
     </h1>
     {%else%}
     <h1>
       <a href="chats/{{chat.id}}">
         {{chat.member_one.name}} {{chat.member_one.surname}}</a
       >
+      <div>
+        <a href="/profile/{{chat.member_one}}">
+          <img
+            src="http://localhost:8000/media/{{chat.member_one.avatar}}"
+            alt="{{chat.member_one.avatar}}"
+            height="150px"
+          />
+        </a>
+      </div>
     </h1>
     {%endif%} {% endfor %} {%else%}
     <h2>У вас пока что нету чатов</h2>

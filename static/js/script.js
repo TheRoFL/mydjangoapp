@@ -1,32 +1,60 @@
-window.onload = function () {
-  slideOne();
-  slideTwo();
-};
+const form = document.querySelector("form");
+const heightLower = form.querySelector("#height_limit_lower");
+const heightUpper = form.querySelector("#height_limit_upper");
+const ageLower = form.querySelector("#age_limit_lower");
+const ageUpper = form.querySelector("#age_limit_upper");
 
-let sliderOne = document.getElementById("slider-1");
-let sliderTwo = document.getElementById("slider-2");
-let displayValOne = document.getElementById("range1");
-let displayValTwo = document.getElementById("range2");
-let minGap = 0;
-let sliderTrack = document.querySelector(".slider-track");
-let sliderMaxValue = document.getElementById("slider-1").max;
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
 
-function slideOne() {
-  if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
-    sliderOne.value = parseInt(sliderTwo.value) - minGap;
+  const heightLowerValue = parseInt(heightLower.value);
+  const heightUpperValue = parseInt(heightUpper.value);
+  const ageLowerValue = parseInt(ageLower.value);
+  const ageUpperValue = parseInt(ageUpper.value);
+
+  if (
+    !heightLowerValue ||
+    !heightUpperValue ||
+    !ageLowerValue ||
+    !ageUpperValue
+  ) {
+    alert("Пожалуйста, заполните все поля");
+    return;
   }
-  displayValOne.textContent = sliderOne.value;
-  fillColor();
-}
-function slideTwo() {
-  if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
-    sliderTwo.value = parseInt(sliderOne.value) + minGap;
+
+  if (
+    heightLowerValue < 140 ||
+    heightLowerValue > 220 ||
+    heightUpperValue < 140 ||
+    heightUpperValue > 220
+  ) {
+    alert("Пожалуйста, введите рост от 140 до 200 см");
+    return;
   }
-  displayValTwo.textContent = sliderTwo.value;
-  fillColor();
-}
-function fillColor() {
-  percent1 = (sliderOne.value / sliderMaxValue) * 100;
-  percent2 = (sliderTwo.value / sliderMaxValue) * 100;
-  sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #3264fe ${percent1}% , #3264fe ${percent2}%, #dadae5 ${percent2}%)`;
-}
+
+  if (
+    ageLowerValue < 18 ||
+    ageLowerValue > 100 ||
+    ageUpperValue < 18 ||
+    ageUpperValue > 100
+  ) {
+    alert("Пожалуйста, введите возраст от 18 до 100 лет");
+    return;
+  }
+
+  if (heightLowerValue > heightUpperValue) {
+    alert(
+      "Пожалуйста, введите корректные значения для минимального и максимального роста"
+    );
+    return;
+  }
+
+  if (ageLowerValue > ageUpperValue) {
+    alert(
+      "Пожалуйста, введите корректные значения для минимального и максимального возраста"
+    );
+    return;
+  }
+
+  form.submit();
+});

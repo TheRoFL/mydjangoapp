@@ -1,0 +1,67 @@
+{% extends 'main.html' %} {% block content %} {% load static %}
+<h1>{{currentuser}} PAGE</h1>
+<br /><br /><br />
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 5fr;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="grid">
+  <div>
+    <h1>{{currentuser.name}}</h1>
+    <h1>{{currentuser.surname}}</h1>
+    <h1>{{age}} лет</h1>
+    <h1>{% if currentuser.sex == 'm' %} Мужик {%else%} Баба {%endif%}</h1>
+    <h1>
+      {% if currentuser.preferences == 'f' %} Ищет бабу {%else%} Ищет мужика
+      {%endif%}
+    </h1>
+  </div>
+  <div>
+    <img
+      src="http://localhost:8000/media/{{currentuser.avatar}}"
+      alt="{{currentuser.avatar}}"
+      height="500px"
+    />
+  </div>
+  <div>
+    <h1>Положение: {{currentuser.personal_data.status}}</h1>
+    <h1>Цель знакомства: {{currentuser.personal_data.purpose}}</h1>
+    <h1>Рост: {{currentuser.personal_data.height}}см</h1>
+    <h1>Отношение к алкоголю: {{currentuser.personal_data.drinking}}</h1>
+    <h1>Отношение к курению: {{currentuser.personal_data.smoking}}</h1>
+    <h1>Отношение к спорту: {{currentuser.personal_data.sport}}</h1>
+    <h1>Отношение к детям: {{currentuser.personal_data.children}}</h1>
+    <!-- prettier-ignore -->
+    <h1>
+      Интересы: 
+      {% if currentuser.interests.music %} Музыка {% endif %}  
+      {% if currentuser.interests.travelling %}Путешествия{% endif %}
+      {% if currentuser.interests.fashion %}Мода{% endif %}
+      {% if currentuser.interests.hiking %}Походы{% endif %}
+      {% if currentuser.interests.photographing %}Фотография{% endif %}
+      {% if currentuser.interests.fishing_hunting %}Рыбалка{% endif %}
+      {% if currentuser.interests.parties_clubs %}Тусовки{% endif %}
+      {% if currentuser.interests.travelling %}Путешествия{% endif %}
+      {% if currentuser.interests.art %}Искусство{% endif %}
+      {% if currentuser.interests.meditation %}Медитация{% endif %}
+      {% if currentuser.interests.football %}Футбол{% endif %}
+      {% if currentuser.interests.fishing_hunting %}Рыбалка{% endif %}
+      {% if currentuser.interests.running %}Бег{% endif %}
+      {% if currentuser.interests.travelling %}Путешествия{% endif %}
+      {% if currentuser.interests.restaurants %}Рестораны{% endif %}
+      {% if currentuser.interests.cinema %}Кино{% endif %}
+      {% if currentuser.interests.board_games %}Настольные игры{% endif %}
+      {% if currentuser.interests.it %}ИТ-технологии{% endif %}
+      {% if currentuser.interests.dancing %}Танцы{% endif %}
+      {% if currentuser.interests.sport %}Спорт{% endif %}
+      {% if currentuser.interests.creativity %}Творчество{% endif %}
+      {% if currentuser.interests.books %}Книги{% endif %}
+    </h1>
+  </div>
+</div>
+
+{% endblock %}
