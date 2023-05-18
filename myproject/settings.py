@@ -18,8 +18,8 @@ AUTHENTICATION_BACKENDS = [
  'django.contrib.auth.backends.ModelBackend',
  'base.authentication.EmailAuthBackend',
 ]
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '768144623999-ctp30fbl3junt6genop5o84snn6ovmva.apps.googleusercontent.com' # Google Consumer Key
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Consumer Secret
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '768144623999-ctp30fbl3junt6genop5o84snn6ovmva.apps.googleusercontent.com' # Google Consumer Key
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Consumer Secret
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,8 +38,6 @@ SECRET_KEY = 'django-insecure-gz17jzkhmz!zw3#e(eu*bqv(^6)dfs-z^(j(0ez)8y5&6+vkxc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
-
 
 # Application definition
 
@@ -57,7 +55,6 @@ INSTALLED_APPS = [
     'Chat.apps.ChatConfig',
     'Map.apps.MapConfig',
 
-    'social_django',
 
 ]
 
