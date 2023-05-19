@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% block content %} {% load static %}
 <!DOCTYPE html>
 
-<h1>Chat PAGE</h1>
+<h1>Huesosik</h1>
 <h1>&nbsp</h1>
 <h1>&nbsp</h1>
 
@@ -35,40 +35,36 @@
     <h1>Отношение к детям: {{couple_request.personal_data.children}}</h1>
     <!-- prettier-ignore -->
     <h1>
-    Интересы: 
-    {% if couple_request.interests.music %} Музыка {% endif %}  
-    {% if couple_request.interests.travelling %}Путешествия{% endif %}
-    {% if couple_request.interests.fashion %}Мода{% endif %}
-    {% if couple_request.interests.hiking %}Походы{% endif %}
-    {% if couple_request.interests.photographing %}Фотография{% endif %}
-    {% if couple_request.interests.fishing_hunting %}Рыбалка{% endif %}
-    {% if couple_request.interests.parties_clubs %}Тусовки{% endif %}
-    {% if couple_request.interests.travelling %}Путешествия{% endif %}
-    {% if couple_request.interests.art %}Искусство{% endif %}
-    {% if couple_request.interests.meditation %}Медитация{% endif %}
-    {% if couple_request.interests.football %}Футбол{% endif %}
-    {% if couple_request.interests.fishing_hunting %}Рыбалка{% endif %}
-    {% if couple_request.interests.running %}Бег{% endif %}
-    {% if couple_request.interests.travelling %}Путешествия{% endif %}
-    {% if couple_request.interests.restaurants %}Рестораны{% endif %}
-    {% if couple_request.interests.cinema %}Кино{% endif %}
-    {% if couple_request.interests.board_games %}Настольные игры{% endif %}
-    {% if couple_request.interests.it %}ИТ-технологии{% endif %}
-    {% if couple_request.interests.dancing %}Танцы{% endif %}
-    {% if couple_request.interests.sport %}Спорт{% endif %}
-    {% if couple_request.interests.creativity %}Творчество{% endif %}
-    {% if couple_request.interests.books %}Книги{% endif %}
+      Интересы:
+      {% if couple_request.interests.music %} Музыка {% endif %}
+      {% if couple_request.interests.travelling %}Путешествия{% endif %}
+      {% if couple_request.interests.fashion %}Мода{% endif %}
+      {% if couple_request.interests.hiking %}Походы{% endif %}
+      {% if couple_request.interests.photographing %}Фотография{% endif %}
+      {% if couple_request.interests.fishing_hunting %}Рыбалка{% endif %}
+      {% if couple_request.interests.parties_clubs %}Тусовки{% endif %}
+      {% if couple_request.interests.travelling %}Путешествия{% endif %}
+      {% if couple_request.interests.art %}Искусство{% endif %}
+      {% if couple_request.interests.meditation %}Медитация{% endif %}
+      {% if couple_request.interests.football %}Футбол{% endif %}
+      {% if couple_request.interests.fishing_hunting %}Рыбалка{% endif %}
+      {% if couple_request.interests.running %}Бег{% endif %}
+      {% if couple_request.interests.travelling %}Путешествия{% endif %}
+      {% if couple_request.interests.restaurants %}Рестораны{% endif %}
+      {% if couple_request.interests.cinema %}Кино{% endif %}
+      {% if couple_request.interests.board_games %}Настольные игры{% endif %}
+      {% if couple_request.interests.it %}ИТ-технологии{% endif %}
+      {% if couple_request.interests.dancing %}Танцы{% endif %}
+      {% if couple_request.interests.sport %}Спорт{% endif %}
+      {% if couple_request.interests.creativity %}Творчество{% endif %}
+      {% if couple_request.interests.books %}Книги{% endif %}
 
-    {% if message.message %}
-    <h1>{{couple_request.name}} отправил тебе сообщение: {{message.message}}</h1>
-    {%endif%}
-  </h1>
+      {% if message.message %}
+      <h1>{{couple_request.name}} отправил тебе сообщение: {{message.message}}</h1>
+      {%endif%}
+    </h1>
 
-    <img
-      src="http://localhost:8000/media/{{couple_request.avatar}}"
-      alt="{{couple_request.avatar}}"
-      height="200px"
-    />
+    <img src="http://localhost:8000/media/{{couple_request.avatar}}" alt="{{couple_request.avatar}}" height="200px" />
 
     <form style="display: inline-block" method="POST" action="">
       {% csrf_token %}
@@ -91,31 +87,23 @@
     {% if chat.member_one.user == request.user %}
     <h1>
       <a href="chats/{{chat.id}}">
-        {{chat.member_two.name}} {{chat.member_two.surname}}</a
-      >
+        {{chat.member_two.name}} {{chat.member_two.surname}}</a>
 
       <div>
         <a href="/profile/{{chat.member_two}}">
-          <img
-            src="http://localhost:8000/media/{{chat.member_two.avatar}}"
-            alt="{{chat.member_two.avatar}}"
-            height="150px"
-          />
+          <img src="http://localhost:8000/media/{{chat.member_two.avatar}}" alt="{{chat.member_two.avatar}}"
+            height="150px" />
         </a>
       </div>
     </h1>
     {%else%}
     <h1>
       <a href="chats/{{chat.id}}">
-        {{chat.member_one.name}} {{chat.member_one.surname}}</a
-      >
+        {{chat.member_one.name}} {{chat.member_one.surname}}</a>
       <div>
         <a href="/profile/{{chat.member_one}}">
-          <img
-            src="http://localhost:8000/media/{{chat.member_one.avatar}}"
-            alt="{{chat.member_one.avatar}}"
-            height="150px"
-          />
+          <img src="http://localhost:8000/media/{{chat.member_one.avatar}}" alt="{{chat.member_one.avatar}}"
+            height="150px" />
         </a>
       </div>
     </h1>
