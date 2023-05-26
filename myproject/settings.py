@@ -38,10 +38,22 @@ SECRET_KEY = 'django-insecure-gz17jzkhmz!zw3#e(eu*bqv(^6)dfs-z^(j(0ez)8y5&6+vkxc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
+# mysite/settings.py
+# Daphne
+ASGI_APPLICATION = "myproject.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,8 +66,7 @@ INSTALLED_APPS = [
     'Acquaintance.apps.AcquaintanceConfig',
     'Chat.apps.ChatConfig',
     'Map.apps.MapConfig',
-
-
+    'Messenger.apps.MessengerConfig'
 ]
 
 MIDDLEWARE = [

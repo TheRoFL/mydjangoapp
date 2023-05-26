@@ -62,7 +62,7 @@ def register(request):
            
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
-            if User.objects.filter(username=username).exists():
+            if User.objects.filter(username=new_user.username).exists():
                 messages.error(request, 'Login already exists')
             new_user.save()
             return render(request,

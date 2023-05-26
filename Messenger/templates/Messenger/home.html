@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% block content %} {% load static %}
 <!DOCTYPE html>
 
-<h1>home</h1>
+<h1>Chat Page</h1>
 <h1>&nbsp</h1>
 <h1>&nbsp</h1>
 
@@ -90,10 +90,15 @@
     <h1></h1>
     {% if chat.member_one.user == request.user %}
     <h1>
-      <a href="chats/{{chat.id}}">
+      <a id="link-id" href="#">
         {{chat.member_two.name}} {{chat.member_two.surname}}</a
       >
-
+      <script>
+        document.querySelector("#link-id").onclick = function (e) {
+          var roomName = "test";
+          window.location.pathname = "/chatx/" + roomName + "/";
+        };
+      </script>
       <div>
         <a href="/profile/{{chat.member_two}}">
           <img
@@ -106,9 +111,15 @@
     </h1>
     {%else%}
     <h1>
-      <a href="chats/{{chat.id}}">
+      <a id="link-id" href="#">
         {{chat.member_one.name}} {{chat.member_one.surname}}</a
       >
+      <script>
+        document.querySelector("#link-id").onclick = function (e) {
+          var roomName = "test";
+          window.location.pathname = "/chatx/" + roomName + "/";
+        };
+      </script>
       <div>
         <a href="/profile/{{chat.member_one}}">
           <img

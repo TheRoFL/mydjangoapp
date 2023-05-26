@@ -24,4 +24,3 @@ class Message(models.Model):
     def __str__(self):
         if len(self.message) > 20: return self.message[:20] + '...'
         else: return self.message
-
