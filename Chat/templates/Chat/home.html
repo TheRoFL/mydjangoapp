@@ -90,34 +90,46 @@
     <h1></h1>
     {% if chat.member_one.user == request.user %}
     <h1>
-      <a href="chats/{{chat.id}}">
-        {{chat.member_two.name}} {{chat.member_two.surname}}</a
-      >
-
-      <div>
-        <a href="/profile/{{chat.member_two}}">
+      <a> {{chat.member_two.name}} {{chat.member_two.surname}}</a>
+      <div id="room-name-input">
+        <a>
           <img
             src="http://localhost:8000/media/{{chat.member_two.avatar}}"
-            alt="{{chat.member_two.avatar}}"
+            alt="{{chat.id}}"
             height="150px"
           />
         </a>
       </div>
+      <script>
+        document.querySelector("#room-name-input").focus();
+
+        document.querySelector("#room-name-input").onclick = function (e) {
+          var roomName = {{chat.id}}
+          window.location.pathname = "/chat/" + roomName + "/";
+        };
+      </script>
     </h1>
     {%else%}
     <h1>
-      <a href="chats/{{chat.id}}">
-        {{chat.member_one.name}} {{chat.member_one.surname}}</a
-      >
+      <a> {{chat.member_one.name}} {{chat.member_one.surname}}</a>
       <div>
-        <a href="/profile/{{chat.member_one}}">
+        <a>
           <img
+            id="room-name-input"
             src="http://localhost:8000/media/{{chat.member_one.avatar}}"
-            alt="{{chat.member_one.avatar}}"
+            alt="{{chat.id}}"
             height="150px"
           />
         </a>
       </div>
+      <script>
+        document.querySelector("#room-name-input").focus();
+
+        document.querySelector("#room-name-input").onclick = function (e) {
+          var roomName = {{chat.id}}
+          window.location.pathname = "/chat/" + roomName + "/";
+        };
+      </script>
     </h1>
     {%endif%} {% endfor %} {%else%}
     <h2>У вас пока что нету чатов</h2>

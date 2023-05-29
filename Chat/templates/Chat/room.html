@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 {% extends 'main.html' %} {% block content %} {% load static %}
 <html>
   <head>
@@ -19,11 +18,24 @@
         "ws://" + window.location.host + "/ws/chat/" + roomName + "/"
       );
 
+      chatSocket.onopen = function (e) {
+        {% for dialog in chat %}
+            {% for message in dialog.messages.all %}
+                document.querySelector("#chat-log").value +=  "{{message.contact.name}} {{message.contact.surname}}:"
+                + " {{message}}" + "\t" + "{{message.timestamp}}" +  "\n";
+            {% endfor %}
+        {% endfor %}
+      };
+
       chatSocket.onmessage = function (e) {
-        const username = "{{ user.username }}";
+        console.log("Пришло сообщение от {{current_user.name}} {{current_user.surname}}");
+        console.log(e)
         const data = JSON.parse(e.data);
-        document.querySelector("#chat-log").value +=
-          username + ": " + data.message + "\n";
+        var message = data["message"]["content"]
+        var author = data["message"]["author"]
+        var time = data["message"]["timestamp"]
+        console.log(data["message"])
+        document.querySelector("#chat-log").value += author + ": " + message + "\t" + time + "\n" ;
       };
 
       chatSocket.onclose = function (e) {
@@ -41,11 +53,13 @@
       document.querySelector("#chat-message-submit").onclick = function (e) {
         const messageInputDom = document.querySelector("#chat-message-input");
         const message = messageInputDom.value;
-        const username = "{{ user.username }}";
+        var username = "{{user.username}}"
         chatSocket.send(
           JSON.stringify({
             message: message,
-            username: username,
+            chatId: roomName,
+            from: username,
+            command:"new_message",
           })
         );
         messageInputDom.value = "";
@@ -53,5 +67,4 @@
     </script>
   </body>
 </html>
-
 {% endblock content %}

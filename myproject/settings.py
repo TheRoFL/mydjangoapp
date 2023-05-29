@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'Acquaintance.apps.AcquaintanceConfig',
     'Chat.apps.ChatConfig',
     'Map.apps.MapConfig',
-    'Messenger.apps.MessengerConfig'
 ]
 
 MIDDLEWARE = [

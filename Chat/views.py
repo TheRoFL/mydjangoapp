@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.db.models import Q
+from .models import *
+from Chat.models import Chat 
+from django.shortcuts import get_object_or_404
 from Profile.models import ProfileData, ProfileLikes
-from .models import Chat, Message
 
-# Create your views here.
 @login_required(login_url='/login/')
 def home(request):
 
@@ -52,45 +54,41 @@ def home(request):
     if current_couple:
         current_message = ProfileLikes.objects.get(likerid=current_couple.user_id)
     else: current_message = None
+
+    
     contex = {
         'couple_request':current_couple,
         'all_chats':all_chats,
-        'message':current_message
+        'message':current_message,
     }
 
-    return render(request, 'Chat/home.html', contex)
+    return render(request, "chat/home.html", contex)
+
 
 def index(request):
     return render(request, "chat/index.html")
 
 
 def room(request, room_name):
-    return render(request, "chat/room.html", {"room_name": room_name})
-
-def chat(request, pk):
-
-    current_userid = request.user.id
-    current_profile = ProfileData.objects.get(user_id=current_userid)
-
-    has_access = Chat.objects.filter(Q(member_one=current_userid) | Q(member_two=current_userid))
-    if has_access:
-        current_chat = Chat.objects.get(id=pk)
-    else: 
-        current_chat = None
-        return HttpResponse("Error 404")
-
-    all_messages = Message.objects.filter(chat_id=current_chat)
-    if request.method == 'POST':
-        mes = request.POST.get('message')
-        message = Message.objects.create(chat=current_chat, message=mes)
-        message.author_id = current_userid
-        message.save()
-
-
+    chat =  Chat.objects.filter(id=room_name)
+    
+    current_user = ProfileData.objects.get(user=request.user)
     contex = {
-        'pk': pk, 
-        'current_chat': current_chat,
-        'all_messages': all_messages,
-        'current_profile': current_profile
+        "room_name": room_name,
+        "chat": chat,
+        'current_user':current_user
     }
-    return render(request, 'Chat/chat.html', contex)
+    return render(request, "chat/room.html", contex)
+
+def get_last_10_messages(chatId):
+    chat = get_object_or_404(Chat, id=chatId)
+    return chat.messages.order_by('-timestamp').all()
+
+
+def get_user_contact(username):
+    user = get_object_or_404(User, username=username)
+    return get_object_or_404(ProfileData, user=user)
+
+
+def get_current_chat(chatId):
+    return get_object_or_404(Chat, id=chatId)

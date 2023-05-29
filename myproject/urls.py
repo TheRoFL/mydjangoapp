@@ -10,8 +10,7 @@ urlpatterns = [
     path('profile/', include('Profile.urls')),
     path('acquaintances/', include('Acquaintance.urls')),
     path('chat/', include('Chat.urls')),
-    path("chatx/", include("Messenger.urls")),
-    path('map/', include('Map.urls'))
+    path('map/', include('Map.urls')),
 ]
 
 
