@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Q
@@ -65,19 +65,34 @@ def home(request):
     return render(request, "chat/home.html", contex)
 
 
-def index(request):
-    return render(request, "chat/index.html")
-
-
+@login_required(login_url='/login/')
 def room(request, room_name):
-    chat =  Chat.objects.filter(id=room_name)
-    
+    chats =  Chat.objects.filter(id=room_name)
+
+
+
+    for chat in chats:
+        # map(lambda x: x.timestamp.strftime("%H:%M"), chat.messages.all())
+        for mes in chat.messages.all():
+            mes.timestamp = mes.formatted_time()
+
+    for chat in chat.messages.all():
+        print(chat.timestamp)
+
     current_user = ProfileData.objects.get(user=request.user)
+    permission = Chat.objects.filter(Q(member_one=current_user)|Q(member_two=current_user))
+    
+    if not permission:
+        return redirect("home")
+    
+    
     contex = {
         "room_name": room_name,
-        "chat": chat,
-        'current_user':current_user
+        "chat": chats,
+        'current_user':current_user,
     }
+
+   
     return render(request, "chat/room.html", contex)
 
 def get_last_10_messages(chatId):
@@ -92,3 +107,4 @@ def get_user_contact(username):
 
 def get_current_chat(chatId):
     return get_object_or_404(Chat, id=chatId)
+

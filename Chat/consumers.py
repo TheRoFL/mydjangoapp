@@ -38,11 +38,12 @@ class ChatConsumer(WebsocketConsumer):
     def message_to_json(self, message):
         author = ProfileData.objects.get(user=message.contact.user)
         author = author.name + " " + author.surname
+        timestamp = message.formatted_time()
         return {
             'id': message.id,
             'author': author,
             'content': message.content,
-            'timestamp': str(message.timestamp)
+            'timestamp': str(timestamp)
         }
 
     commands = {

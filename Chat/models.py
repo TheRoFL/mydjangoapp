@@ -14,6 +14,8 @@ class Message(models.Model):
     def __str__(self):
         return self.content
     
+    def formatted_time(self):
+        return self.timestamp.strftime("%H:%M")
 
 class Chat(models.Model):
     member_one = models.ForeignKey(ProfileData, on_delete = models.CASCADE, blank=False, null=False, related_name = 'member_one')
