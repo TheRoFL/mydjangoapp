@@ -5,7 +5,7 @@
     <title>Chat Room</title>
   </head>
   <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br />
+    <textarea id="chat-log" cols="100" rows="20" readonly></textarea><br />
     <input id="chat-message-input" type="text" size="100" /><br />
     <input id="chat-message-submit" type="button" value="Send" />
     {{ room_name|json_script:"room-name" }}
@@ -20,24 +20,36 @@
       );
 
       chatSocket.onopen = function (e) {
-        {% for dialog in chat %}
-            {% for message in dialog.messages.all %}
-                document.querySelector("#chat-log").value +=  "{{message.contact.name}} {{message.contact.surname}}:"
-                + " {{message}}" + "\t" + "{{message.timestamp}}" + "\n";
-                {{i}}
-            {% endfor %}
-        {% endfor %}
+        chatSocket.send(
+          JSON.stringify({
+            chatId: roomName,
+            command: "fetch_messages",
+          })
+        );
       };
 
       chatSocket.onmessage = function (e) {
-        console.log("Пришло сообщение от {{current_user.name}} {{current_user.surname}}");
-        console.log(e)
         const data = JSON.parse(e.data);
-        var message = data["message"]["content"]
-        var author = data["message"]["author"]
-        var time = data["message"]["timestamp"]
-        console.log(data["message"])
-        document.querySelector("#chat-log").value += author + ": " + message + "\t" + time + "\n" ;
+        console.log(data);
+        var messages = data["messages"]; // Получаем массив сообщений
+
+        if (data["command"] === "new_message") {
+          console.log("Получен запрос на новое сообщение!");
+          var message = data["message"]["content"];
+          var author = data["message"]["author"];
+          var time = data["message"]["timestamp"];
+          document.querySelector("#chat-log").value +=
+            author + ": " + message + "\t" + time + "\n";
+        } else {
+          console.log("Получен запрос на получение всех сообщений!");
+          messages.forEach(function (messageObj) {
+            var message = messageObj.content;
+            var author = messageObj.author;
+            var time = messageObj.timestamp;
+            document.querySelector("#chat-log").value +=
+              author + ": " + message + "\t" + time + "\n";
+          });
+        }
       };
 
       chatSocket.onclose = function (e) {
@@ -48,23 +60,28 @@
       document.querySelector("#chat-message-input").onkeyup = function (e) {
         if (e.keyCode === 13) {
           // enter, return
-          document.querySelector("#chat-message-submit").click();
+          const messageInput = document.querySelector("#chat-message-input");
+          if (messageInput.value.trim() !== "") {
+            document.querySelector("#chat-message-submit").click();
+          }
         }
       };
 
       document.querySelector("#chat-message-submit").onclick = function (e) {
         const messageInputDom = document.querySelector("#chat-message-input");
-        const message = messageInputDom.value;
-        var username = "{{user.username}}"
-        chatSocket.send(
-          JSON.stringify({
-            message: message,
-            chatId: roomName,
-            from: username,
-            command:"new_message",
-          })
-        );
-        messageInputDom.value = "";
+        if (messageInputDom.value.trim() !== "") {
+          const message = messageInputDom.value;
+          var username = "{{user.username}}";
+          chatSocket.send(
+            JSON.stringify({
+              message: message,
+              chatId: roomName,
+              from: username,
+              command: "new_message",
+            })
+          );
+          messageInputDom.value = "";
+        }
       };
     </script>
   </body>

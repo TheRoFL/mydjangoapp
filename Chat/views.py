@@ -67,28 +67,14 @@ def home(request):
 
 @login_required(login_url='/login/')
 def room(request, room_name):
-    chats =  Chat.objects.filter(id=room_name)
-
-
-
-    for chat in chats:
-        # map(lambda x: x.timestamp.strftime("%H:%M"), chat.messages.all())
-        for mes in chat.messages.all():
-            mes.timestamp = mes.formatted_time()
-
-    for chat in chat.messages.all():
-        print(chat.timestamp)
-
     current_user = ProfileData.objects.get(user=request.user)
     permission = Chat.objects.filter(Q(member_one=current_user)|Q(member_two=current_user))
     
     if not permission:
         return redirect("home")
     
-    
     contex = {
         "room_name": room_name,
-        "chat": chats,
         'current_user':current_user,
     }
 
@@ -97,7 +83,7 @@ def room(request, room_name):
 
 def get_last_10_messages(chatId):
     chat = get_object_or_404(Chat, id=chatId)
-    return chat.messages.order_by('-timestamp').all()
+    return chat.messages.order_by('timestamp').all()
 
 
 def get_user_contact(username):

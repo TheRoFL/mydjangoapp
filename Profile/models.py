@@ -4,6 +4,7 @@ from django.db.models.deletion import CASCADE
 from django.db.utils import IntegrityError
 from datetime import date
 
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Interests(models.Model):
@@ -52,7 +53,7 @@ class PersonalData(models.Model):
             )
     purpose = models.CharField(max_length=100, choices=PURP_CHOICES, blank=True, null=True)
 
-    height = models.IntegerField(blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(140), MaxValueValidator(250)])
     
     DRINK_CHOICES = (
                 ('Иногда', 'Иногда'),
