@@ -20,6 +20,7 @@
       );
 
       chatSocket.onopen = function (e) {
+        console.log("Вы подключились к WebSocket");
         chatSocket.send(
           JSON.stringify({
             chatId: roomName,
@@ -30,18 +31,15 @@
 
       chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        console.log(data);
         var messages = data["messages"]; // Получаем массив сообщений
 
         if (data["command"] === "new_message") {
-          console.log("Получен запрос на новое сообщение!");
           var message = data["message"]["content"];
           var author = data["message"]["author"];
           var time = data["message"]["timestamp"];
           document.querySelector("#chat-log").value +=
             author + ": " + message + "\t" + time + "\n";
         } else {
-          console.log("Получен запрос на получение всех сообщений!");
           messages.forEach(function (messageObj) {
             var message = messageObj.content;
             var author = messageObj.author;
@@ -70,7 +68,7 @@
       document.querySelector("#chat-message-submit").onclick = function (e) {
         const messageInputDom = document.querySelector("#chat-message-input");
         if (messageInputDom.value.trim() !== "") {
-          const message = messageInputDom.value;
+          var message = messageInputDom.value;
           var username = "{{user.username}}";
           chatSocket.send(
             JSON.stringify({
@@ -81,6 +79,19 @@
             })
           );
           messageInputDom.value = "";
+
+          var to = "{{current_chat.member_two}}";
+          if (to === username) {
+            to = "{{current_chat.member_one}}";
+          }
+
+          NotificationSocket.send(
+            JSON.stringify({
+              from: username,
+              to: to,
+              content: message,
+            })
+          );
         }
       };
     </script>

@@ -34,7 +34,24 @@
     <form style="display: inline-block" method="POST" action="">
       {% csrf_token %}
       <input name="like" id="like" type="submit" value="like" />
+      <script>
+        const likeButton = document.getElementById("like");
+
+        likeButton.addEventListener("click", function () {
+          const from = "{{user.username}}";
+          const to = "{{currentuser.user.username}}";
+
+          NotificationSocket.send(
+            JSON.stringify({
+              from: from,
+              to: to,
+              content: "Like",
+            })
+          );
+        });
+      </script>
     </form>
+
     <form style="display: inline-block" method="POST" action="">
       {% csrf_token %}
       <input name="dislike" id="dislike" type="submit" value="dislike" />

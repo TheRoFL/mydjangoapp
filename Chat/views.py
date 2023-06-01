@@ -68,7 +68,7 @@ def home(request):
 @login_required(login_url='/login/')
 def room(request, room_name):
     current_user = ProfileData.objects.get(user=request.user)
-    permission = Chat.objects.filter(Q(member_one=current_user)|Q(member_two=current_user))
+    permission = Chat.objects.get(pk=room_name)
     
     if not permission:
         return redirect("home")
@@ -76,6 +76,7 @@ def room(request, room_name):
     contex = {
         "room_name": room_name,
         'current_user':current_user,
+        "current_chat":permission,
     }
 
    

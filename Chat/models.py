@@ -10,6 +10,7 @@ class Message(models.Model):
     content = models.TextField()
     uploaded_image = models.FileField(upload_to='chats/message_pictures/%Y/%m/%d/', blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.content

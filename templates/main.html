@@ -11,9 +11,38 @@
     {% endcomment %}
   </head>
   <body>
-    <!-- prettier-ignore -->
     {% include 'header.html' %}
+    <script>
+      const NotificationSocket = new WebSocket(
+        "ws://" + window.location.host + "/ws/notification/"
+      );
 
-    {% block content %} {% endblock content %}
+      NotificationSocket.onopen = function (e) {
+        console.log("Вы подключились к NotificationSocket");
+      };
+
+      NotificationSocket.onmessage = function (e) {
+        var user = "{{user.username}}";
+        var data = JSON.parse(e.data);
+        data = data["message"];
+        const fromContact = data["from_contact"];
+        const toContact = data["to_contact"];
+        const content = data["message"];
+        if (user === toContact && content === "Like") {
+          alert(`Ваша анкета понравилась пользователю ${fromContact}`);
+        }
+        if (user === toContact && content !== "Like") {
+          alert(`Вам пришло сообщение от ${fromContact} с текстом ${content}`);
+        }
+      };
+
+      NotificationSocket.onclose = function (e) {
+        console.error("Потеряно соединение с сервером!");
+      };
+    </script>
+    {% block content %}
+    <!-- Просто чтобы было -->
+    {% endblock content %}
   </body>
+  <script src="{% static 'js/reconnecting-websocket.js' %}"></script>
 </html>

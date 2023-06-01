@@ -12,6 +12,7 @@ django_asgi_app = get_asgi_application()
 
 import Chat.routing
 
+
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,
