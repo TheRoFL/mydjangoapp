@@ -91,7 +91,7 @@
     {% if chat.member_one.user == request.user %}
     <h1>
       <a> {{chat.member_two.name}} {{chat.member_two.surname}}</a>
-      <div id="room-name-input">
+      <div id="room-name-input-{{chat.id}}">
         <a>
           <img
             src="http://localhost:8000/media/{{chat.member_two.avatar}}"
@@ -101,9 +101,9 @@
         </a>
       </div>
       <script>
-        document.querySelector("#room-name-input").focus();
+        document.querySelector("#room-name-input-{{chat.id}}").focus();
 
-        document.querySelector("#room-name-input").onclick = function (e) {
+        document.querySelector("#room-name-input-{{chat.id}}").onclick = function (e) {
           var roomName = {{chat.id}}
           window.location.pathname = "/chat/" + roomName + "/";
         };
@@ -115,7 +115,7 @@
       <div>
         <a>
           <img
-            id="room-name-input"
+            id="room-name-input-{{chat.id}}"
             src="http://localhost:8000/media/{{chat.member_one.avatar}}"
             alt="{{chat.id}}"
             height="150px"
@@ -123,9 +123,9 @@
         </a>
       </div>
       <script>
-        document.querySelector("#room-name-input").focus();
+        document.querySelector("#room-name-input-{{chat.id}}").focus();
 
-        document.querySelector("#room-name-input").onclick = function (e) {
+        document.querySelector("#room-name-input-{{chat.id}}").onclick = function (e) {
           var roomName = {{chat.id}}
           window.location.pathname = "/chat/" + roomName + "/";
         };
