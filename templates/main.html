@@ -12,8 +12,11 @@
   </head>
   <body>
     {% include 'header.html' %}
+    <script src="{% static 'js/reconnecting-websocket.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-      const NotificationSocket = new WebSocket(
+      const NotificationSocket = new ReconnectingWebSocket(
         "ws://" + window.location.host + "/ws/notification/"
       );
 

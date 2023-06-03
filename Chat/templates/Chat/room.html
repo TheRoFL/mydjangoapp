@@ -17,7 +17,7 @@
         document.getElementById("room-name").textContent
       );
 
-      const chatSocket = new WebSocket(
+      const chatSocket = new ReconnectingWebSocket(
         "ws://" + window.location.host + "/ws/chat/" + roomName + "/"
       );
 
@@ -42,6 +42,7 @@
           document.querySelector("#chat-log").value +=
             author + ": " + message + "\t" + time + "\t" + "\n";
         } else {
+          document.querySelector("#chat-log").value = "";
           messages.forEach(function (messageObj) {
             var message = messageObj.content;
             var author = messageObj.author;

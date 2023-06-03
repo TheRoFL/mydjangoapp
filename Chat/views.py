@@ -55,7 +55,6 @@ def home(request):
         current_message = ProfileLikes.objects.get(likerid=current_couple.user_id)
     else: current_message = None
 
-    
     contex = {
         'couple_request':current_couple,
         'all_chats':all_chats,
