@@ -1,6 +1,16 @@
 body {
   background-color: #f7b1ab; /* Оранжево-розовый цвет фона */
 }
+
+header {
+  height: 90px;
+}
+
+.logo2 {
+  height: 90px;
+  width: 90px;
+}
+
 nav ul {
   list-style: none;
   margin: 0;
@@ -23,44 +33,13 @@ nav a {
   font-size: 16px;
   text-transform: uppercase;
   border-radius: 5px;
-  background-color: #ff6600;
+  background-color: #d9d9d9;
   border-bottom: 0;
   transition: border-bottom 0.06s ease-in-out; /* Плавная анимация */
 }
 
 nav a:hover {
-  background-color: #ff8533;
-}
-
-.logo {
-  display: block;
-  float: left; /* Выравнивание логотипа по левому краю */
-  margin: 10px 20px; /* Отступы от верхнего и левого краев */
-  width: 10%; /* Ширина логотипа в 10% от исходного размера */
-  height: 10%; /* Высота логотипа в 10% от исходного размера */
-  border-radius: 50%; /* Создание круглой формы */
-  animation: pulse 1s infinite; /* CSS3 анимация */
-}
-
-/* CSS стили для эффекта свечения */
-.logo:hover {
-  box-shadow: 0px 0px 20px #fff; /* Тень с белым свечением */
-}
-
-/* CSS3 анимация для пульсации логотипа */
-@keyframes pulse {
-  0% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
+  background-color: #eaeaea;
 }
 
 .menu {

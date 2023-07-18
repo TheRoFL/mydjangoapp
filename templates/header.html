@@ -9,8 +9,8 @@
   </head>
   <body>
     <header>
-      <a href="/profile"
-        ><img class="logo" src="{% static 'img/logo2.png' %}" alt="Логотип"
+      <a href="/acquaintances"
+        ><img class="logo2" src="../static/img/logo.png" alt="logo"
       /></a>
 
       <!-- jQuery библиотека -->
@@ -30,30 +30,10 @@
           {% endif %}
         </ul>
       </nav>
-      <div style="text-align: right"></div>
     </header>
     <main></main>
     <footer>
       <!-- Контент футера -->
     </footer>
-
-    <script>
-      // JavaScript код для пульсации логотипа
-      setInterval(function () {
-        var logo = document.querySelector(".logo");
-        logo.classList.toggle("pulse");
-      }, 1000);
-
-      // JavaScript код для управления анимацией логотипа
-      var logo = document.querySelector(".logo");
-
-      logo.addEventListener("mouseover", function () {
-        logo.classList.remove("pulse");
-      });
-
-      logo.addEventListener("mouseout", function () {
-        logo.classList.add("pulse");
-      });
-    </script>
   </body>
 </html>
